@@ -1,12 +1,12 @@
 import sys
 from dataclasses import dataclass
 
-import numpy as np
+import numpy as np 
 import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.preprocessing import OneHotEncoder,StandardScaler
 
 from src.exception import CustomException
 from src.logger import logging
@@ -16,14 +16,17 @@ from src.utils import save_object
 
 @dataclass
 class DataTransformationConfig:
-    preprocessor_obj_file_path=os.path.join('artifacts',"preprocessor.pkl")
-
+    preprocessor_obj_file_path=os.path.join('artifacts',"proprocessor.pkl")
 
 class DataTransformation:
     def __init__(self):
-        self.data_transformation_config = DataTransformationConfig()
-    
+        self.data_transformation_config=DataTransformationConfig()
+
     def get_data_transformer_object(self):
+        '''
+        This function si responsible for data trnasformation
+        
+        '''
         try:
             numerical_columns = ["writing_score", "reading_score"]
             categorical_columns = [
@@ -33,7 +36,7 @@ class DataTransformation:
                 "lunch",
                 "test_preparation_course",
             ]
-            
+
             num_pipeline= Pipeline(
                 steps=[
                 ("imputer",SimpleImputer(strategy="median")),
@@ -41,6 +44,7 @@ class DataTransformation:
 
                 ]
             )
+
             cat_pipeline=Pipeline(
 
                 steps=[
@@ -50,7 +54,7 @@ class DataTransformation:
                 ]
 
             )
-            
+
             logging.info(f"Categorical columns: {categorical_columns}")
             logging.info(f"Numerical columns: {numerical_columns}")
 
